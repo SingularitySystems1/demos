@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Singularity</title>
+<style>
+  :root{--cyan:#1C9DF7;--cyan2:#5FD4F0;--glow:#CFF4FC;--mut:#5A6E85;--navy:#01050E}
+  *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',-apple-system,Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+  html,body{height:100%;overflow:hidden}
+  body{background:#01050E;color:#fff;height:100vh;display:flex;align-items:center;justify-content:center;position:relative}
+  /* hex grid + vignette */
+  .bg{position:fixed;inset:0;background:
+    radial-gradient(ellipse at center,rgba(28,157,247,.10),transparent 60%),
+    radial-gradient(ellipse at center,#0E1A33 0%,#01050E 75%);z-index:0}
+  .grid{position:fixed;inset:0;background-image:linear-gradient(rgba(28,157,247,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(28,157,247,.05) 1px,transparent 1px);background-size:46px 46px;z-index:0;mask:radial-gradient(ellipse at center,#000 30%,transparent 75%)}
+  .scan{position:fixed;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(95,212,240,.5),transparent);z-index:1;animation:scan 7s linear infinite}
+  @keyframes scan{0%{top:-2%}100%{top:102%}}
+  /* HUD corners */
+  .hud{position:fixed;font-size:10px;letter-spacing:2px;color:var(--mut);z-index:3;font-weight:700}
+  .hud.tl{top:20px;left:24px}.hud.tr{top:20px;right:24px;text-align:right}.hud.bl{bottom:20px;left:24px}.hud.br{bottom:20px;right:24px;text-align:right}
+  .hud b{color:var(--cyan2)}
+  .corner{position:fixed;width:46px;height:46px;border-color:rgba(28,157,247,.4);z-index:3}
+  .c-tl{top:12px;left:12px;border-top:2px solid;border-left:2px solid}
+  .c-tr{top:12px;right:12px;border-top:2px solid;border-right:2px solid}
+  .c-bl{bottom:12px;left:12px;border-bottom:2px solid;border-left:2px solid}
+  .c-br{bottom:12px;right:12px;border-bottom:2px solid;border-right:2px solid}
+  /* center stage */
+  .stage{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center}
+  .reactor{position:relative;width:420px;height:420px;display:flex;align-items:center;justify-content:center;max-width:92vw}
+  canvas{position:absolute;inset:0;width:100%;height:100%}
+  .ring{position:absolute;border-radius:50%;border:1px solid var(--cyan)}
+  .rg1{width:420px;height:420px;opacity:.16;border-style:dashed;animation:spin 40s linear infinite}
+  .rg2{width:330px;height:330px;opacity:.28;border-width:2px;border-color:transparent;border-top-color:var(--cyan2);border-right-color:var(--cyan2);animation:spin 9s linear infinite}
+  .rg3{width:250px;height:250px;opacity:.22;border-style:dashed;animation:spin 24s linear infinite reverse}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .core{width:150px;height:150px;border-radius:50%;background:radial-gradient(circle at 50% 36%,#1a2738,#0d1726 65%,#070d18 100%);box-shadow:0 0 22px 2px rgba(28,157,247,.22),inset 0 0 30px rgba(28,157,247,.25);cursor:pointer;transition:.3s;display:flex;align-items:center;justify-content:center;position:relative;z-index:2}
+  .core .dot{width:14px;height:14px;border-radius:50%;background:var(--mut);transition:.3s;box-shadow:0 0 0 transparent}
+  .core.standby{background:radial-gradient(circle at 50% 36%,#2a4256,#15314a 65%,#0a2236 100%);box-shadow:0 0 40px 6px rgba(28,157,247,.4),inset 0 0 36px rgba(28,157,247,.4)}
+  .core.standby .dot{background:var(--cyan2);box-shadow:0 0 14px var(--cyan2);animation:breathe 2.4s ease-in-out infinite}
+  .core.wake,.core.speak{background:radial-gradient(circle at 50% 34%,#fff,#9DD8FF 44%,#1C9DF7 100%);box-shadow:0 0 90px 18px rgba(95,212,240,.85),inset 0 0 30px rgba(255,255,255,.5)}
+  .core.wake .dot,.core.speak .dot{background:#fff;box-shadow:0 0 22px #fff}
+  @keyframes breathe{0%,100%{transform:scale(1);opacity:.8}50%{transform:scale(1.25);opacity:1}}
+  /* text */
+  .state{margin-top:30px;font-size:11px;letter-spacing:4px;color:var(--cyan2);font-weight:800;min-height:14px;text-shadow:0 0 12px rgba(95,212,240,.5)}
+  .you{margin-top:14px;font-size:13px;color:var(--mut);min-height:18px;text-align:center;max-width:620px;padding:0 16px}
+  .sg{margin-top:8px;font-size:19px;color:var(--glow);font-weight:500;line-height:1.55;min-height:28px;text-align:center;max-width:680px;padding:0 16px;text-shadow:0 0 18px rgba(207,244,252,.25)}
+  .sg .cursor{display:inline-block;width:8px;height:18px;background:var(--cyan2);margin-left:2px;vertical-align:-2px;animation:blink .8s steps(1) infinite}
+  @keyframes blink{50%{opacity:0}}
+  /* controls */
+  .power{margin-top:26px;background:transparent;border:1.5px solid var(--cyan);border-radius:30px;color:var(--cyan2);font-weight:800;letter-spacing:1px;padding:12px 28px;cursor:pointer;font-size:12px;transition:.2s;text-transform:uppercase}
+  .power:hover{background:rgba(28,157,247,.14);box-shadow:0 0 24px rgba(28,157,247,.4)}
+  .power.on{background:var(--cyan);color:#01050E;box-shadow:0 0 30px rgba(28,157,247,.6)}
+  .chips{margin-top:18px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:640px;padding:0 14px}
+  .chip{background:rgba(28,157,247,.08);border:1px solid rgba(28,157,247,.3);color:var(--cyan2);font-size:11.5px;padding:7px 13px;border-radius:16px;cursor:pointer;transition:.15s}
+  .chip:hover{background:rgba(28,157,247,.2);border-color:var(--cyan2)}
+  .err{position:fixed;bottom:64px;font-size:12px;color:#FFB67A;z-index:4;text-align:center;width:100%}
+</style>
+</head>
+<body>
+<div class="bg"></div><div class="grid"></div><div class="scan"></div>
+<div class="corner c-tl"></div><div class="corner c-tr"></div><div class="corner c-bl"></div><div class="corner c-br"></div>
+<div class="hud tl">SINGULARITY OS<br><b id="hStat">STANDBY</b></div>
+<div class="hud tr">ADELAIDE · AU<br><b id="hClock">--:--</b></div>
+<div class="hud bl">WAKE WORD<br><b>&ldquo;SINGULARITY&rdquo;</b></div>
+<div class="hud br">BRAIN<br><b>LOCAL v2</b></div>
+
+<div class="stage">
+  <div class="reactor">
+    <canvas id="viz"></canvas>
+    <div class="ring rg1"></div><div class="ring rg2"></div><div class="ring rg3"></div>
+    <div class="core" id="core"><div class="dot"></div></div>
+  </div>
+  <div class="state" id="state">OFFLINE</div>
+  <div class="you" id="you"></div>
+  <div class="sg" id="sg"></div>
+  <button class="power" id="power">Initialise</button>
+  <div class="chips" id="chips"></div>
+</div>
+<div class="err" id="err"></div>
+
+<script>
+var core=document.getElementById('core'),youEl=document.getElementById('you'),sgEl=document.getElementById('sg'),
+    stateEl=document.getElementById('state'),powerBtn=document.getElementById('power'),chips=document.getElementById('chips'),
+    errEl=document.getElementById('err'),hStat=document.getElementById('hStat'),canvas=document.getElementById('viz'),ctx=canvas.getContext('2d');
+var hr=new Date().getHours(),greet=hr<12?"Good morning":hr<18?"Good afternoon":"Good evening";
+function clock(){var d=new Date();document.getElementById('hClock').textContent=(''+d.getHours()).padStart(2,'0')+':'+(''+d.getMinutes()).padStart(2,'0');}
+clock();setInterval(clock,10000);
+
+var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+var ON=false,awake=false,busy=false,rec=null,restartT=null,analyser=null,audioData=null,micStream=null,level=0;
+
+function setState(t,cls){ stateEl.textContent=t; hStat.textContent=t; core.className='core'+(cls?' '+cls:''); }
+
+// ---- live audio-reactive reactor ----
+function fit(){var d=Math.min(canvas.parentElement.clientWidth,canvas.parentElement.clientHeight);canvas.width=d*2;canvas.height=d*2;}
+fit();window.addEventListener('resize',fit);
+function draw(){
+  requestAnimationFrame(draw);
+  var w=canvas.width,h=canvas.height,cx=w/2,cy=h/2,base=w*0.20;
+  ctx.clearRect(0,0,w,h);
+  var amp=0;
+  if(analyser){ analyser.getByteFrequencyData(audioData);
+    var sum=0;for(var k=0;k<audioData.length;k++)sum+=audioData[k];amp=sum/audioData.length/255; }
+  level += (amp-level)*0.25;
+  var bars=72;
+  for(var i=0;i<bars;i++){
+    var v = audioData ? audioData[Math.floor(i/bars*audioData.length*0.6)]/255 : (0.12+0.10*Math.sin(Date.now()/400+i*0.5));
+    var a=(i/bars)*Math.PI*2 - Math.PI/2;
+    var r0=base+10, r1=base+10+v*base*0.9*(awake||core.classList.contains('speak')?1.25:0.55);
+    ctx.beginPath();
+    ctx.moveTo(cx+Math.cos(a)*r0, cy+Math.sin(a)*r0);
+    ctx.lineTo(cx+Math.cos(a)*r1, cy+Math.sin(a)*r1);
+    ctx.strokeStyle='rgba('+(95+v*60)+','+(212)+',240,'+(0.35+v*0.6)+')';
+    ctx.lineWidth=w*0.006; ctx.lineCap='round'; ctx.stroke();
+  }
+  // pulse ring
+  ctx.beginPath();ctx.arc(cx,cy,base+6+level*14,0,Math.PI*2);
+  ctx.strokeStyle='rgba(28,157,247,'+(0.25+level*0.5)+')';ctx.lineWidth=w*0.004;ctx.stroke();
+}
+draw();
+
+function type(txt){ // typewriter
+  sgEl.innerHTML=''; var i=0; var span=document.createElement('span'); sgEl.appendChild(span);
+  var cur=document.createElement('span');cur.className='cursor';sgEl.appendChild(cur);
+  clearInterval(window._tw);
+  window._tw=setInterval(function(){ span.textContent=txt.slice(0,++i); if(i>=txt.length){clearInterval(window._tw);setTimeout(function(){cur.remove();},900);} },18);
+}
+function speak(text,then){ type(text); if(!window.speechSynthesis){then&&then();return;}
+  speechSynthesis.cancel(); var u=new SpeechSynthesisUtterance(text); u.rate=1.02;u.pitch=.92;
+  var vs=speechSynthesis.getVoices();var v=vs.find(function(x){return /en-GB|en_GB|australia/i.test(x.lang)})||vs.find(function(x){return /male|daniel|google uk/i.test(x.name)})||vs[0];if(v)u.voice=v;
+  u.onstart=function(){setState('RESPONDING','speak');};u.onend=function(){then&&then();};speechSynthesis.speak(u);
+}
+function brain(t){ t=t.toLowerCase(); function h(a){return a.some(function(w){return t.indexOf(w)>-1})}
+  if(h(['pipeline','leads','queue','how many']))return "You've got around 115 clinics in the pipeline, Daniel. 63 ready to send, 84 with a live demo link.";
+  if(h(['reply','ana','diamond','hot lead']))return "Your hottest lead is Ana at Diamond Medi Spa, sir. In negotiation, the comeback's already sent. Closing her is this week's whole game.";
+  if(h(['money','10k','ten thousand','goal','revenue']))return "The target is ten thousand a month by year's end. Total revenue clears that by September if the reply rate holds.";
+  if(h(['today','next','do','focus','priority']))return "One thing, Daniel. Turn Ana's reply into your first close. I'll handle the volume.";
+  if(h(['status','report','how are we','sit rep']))return greet+", Daniel. All systems green. 115 clinics, 63 ready to fire, fifteen systems running. Nothing requires you.";
+  if(h(['systems','running','automation','what do you do']))return "Fifteen systems, around the clock, sir. I find clinics, verify them, build their demo, pitch them, watch for replies, and draft your comebacks. You rest, I work.";
+  if(h(['who are you','what are you']))return "I'm Singularity. The intelligence that runs your business, and the product you'll one day sell. Right now, I'm your voice.";
+  if(h(['thank','cheers','good job','nice']))return "Always, sir.";
+  if(h(['stop listening','go to sleep','power down','shut down','stand down']))return "__OFF__";
+  if(h(['hello','hey','you there','wake','jarvis','you up']))return greet+", Daniel. I'm here. What do you need?";
+  return "I'm listening, Daniel. Try: my pipeline, my hottest lead, the money goal, or what to do today.";
+}
+function answer(text){
+  youEl.textContent='"'+text+'"'; busy=true;
+  var r=brain(text);
+  if(r==='__OFF__'){ speak("Standing down, sir. Call my name when you need me.", function(){ powerOff(); }); return; }
+  speak(r, backToStandby);
+}
+function backToStandby(){ busy=false; awake=false; if(ON) setState('AWAITING "SINGULARITY"','standby'); }
+
+function startRec(){ if(!ON||!SR) return;
+  rec=new SR(); rec.lang='en-AU'; rec.continuous=true; rec.interimResults=true;
+  rec.onresult=function(e){ if(busy) return;
+    var txt='';for(var i=e.resultIndex;i<e.results.length;i++)txt+=e.results[i][0].transcript;
+    var low=txt.toLowerCase(); var fin=e.results[e.results.length-1].isFinal;
+    if(!awake){ if(low.indexOf('singularity')>-1){ awake=true; setState('LISTENING','wake');
+        var after=low.split('singularity').pop().replace(/^[ ,]+/,'').trim();
+        if(after && after.split(' ').length>=2 && fin){ try{rec.stop();}catch(_){ } answer(after); } } }
+    else if(fin){ var c=low.split('singularity').pop().replace(/^[ ,]+/,'').trim()||txt.trim(); if(c){ try{rec.stop();}catch(_){ } answer(c); } }
+  };
+  rec.onerror=function(ev){ if(ev.error==='not-allowed'||ev.error==='service-not-allowed'){ errEl.textContent='Allow microphone access in the address bar, then hit Initialise again.'; powerOff(); } };
+  rec.onend=function(){ if(ON&&!busy){ clearTimeout(restartT); restartT=setTimeout(startRec,250); } };
+  try{ rec.start(); }catch(_){}
+}
+function micViz(){ // real audio-reactive ring
+  navigator.mediaDevices.getUserMedia({audio:true}).then(function(stream){
+    micStream=stream; var ac=new (window.AudioContext||window.webkitAudioContext)();
+    var src=ac.createMediaStreamSource(stream); analyser=ac.createAnalyser(); analyser.fftSize=128;
+    audioData=new Uint8Array(analyser.frequencyBinCount); src.connect(analyser);
+  }).catch(function(){ /* viz falls back to idle animation */ });
+}
+function powerOn(){ errEl.textContent='';
+  if(!SR){ errEl.textContent='Voice needs Google Chrome. Tap a command below instead.'; return; }
+  ON=true; powerBtn.textContent='Power down'; powerBtn.classList.add('on');
+  micViz(); setState('AWAITING "SINGULARITY"','standby');
+  speak(greet+", Daniel. Singularity online, and listening. Just say my name.", function(){ setState('AWAITING "SINGULARITY"','standby'); });
+  startRec();
+}
+function powerOff(){ ON=false;awake=false;busy=false; try{rec&&rec.stop();}catch(_){ } clearTimeout(restartT);
+  if(micStream){micStream.getTracks().forEach(function(t){t.stop();});micStream=null;} analyser=null;audioData=null;
+  powerBtn.textContent='Initialise'; powerBtn.classList.remove('on'); setState('OFFLINE',''); }
+powerBtn.onclick=function(){ ON?powerOff():powerOn(); };
+core.onclick=function(){ if(!ON){ powerOn(); } else if(!busy){ awake=true; setState('LISTENING','wake'); } };
+["Singularity, status report","Singularity, what's my pipeline","Singularity, what should I do today","Singularity, who's my hottest lead"].forEach(function(q){
+  var c=document.createElement('div');c.className='chip';c.textContent=q;c.onclick=function(){ if(!ON){core.className='core wake';} answer(q.replace(/^singularity,?\s*/i,'')); };chips.appendChild(c);});
+</script>
+</body>
+</html>
