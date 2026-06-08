@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diamond Medi Spa — AI Customer Engine Demo</title>
+<style>
+  :root{--navy:#01050E;--navy2:#0E1A33;--cyan:#1C9DF7;--cyan2:#5FD4F0;--ink:#0A111B;--line:#1A2434;--white:#fff;--mut:#8aa0c0;--green:#10B981;--amber:#F59E0B}
+  *{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,Segoe UI,Roboto,sans-serif}
+  body{background:radial-gradient(ellipse at top,#0E1A33,#01050E 70%);color:#fff;line-height:1.6}
+  .wrap{max-width:920px;margin:0 auto;padding:0 20px}
+  .banner{background:linear-gradient(135deg,rgba(28,157,247,.14),rgba(28,157,247,.02));border-bottom:1px solid var(--line);padding:8px 0;text-align:center;font-size:13px;color:var(--cyan2)}
+  .banner b{color:#fff}
+  header{padding:54px 0 30px;text-align:center}
+  .badge{display:inline-block;background:rgba(28,157,247,.12);border:1px solid rgba(28,157,247,.35);color:var(--cyan2);font-size:12px;font-weight:700;letter-spacing:1.5px;padding:6px 14px;border-radius:20px;text-transform:uppercase}
+  h1{font-size:40px;font-weight:800;margin:18px 0 10px;line-height:1.15}
+  h1 .g{background:linear-gradient(90deg,var(--cyan),var(--cyan2));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{color:var(--mut);font-size:17px;max-width:620px;margin:0 auto}
+  .stars{color:var(--amber);font-size:18px;margin-top:14px}
+  .cta{display:inline-block;background:linear-gradient(135deg,var(--amber),#FBBF24);color:#01050E;font-weight:800;text-decoration:none;padding:14px 30px;border-radius:10px;margin-top:22px;font-size:16px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin:24px 0}
+  .card{background:var(--ink);border:1px solid var(--line);border-radius:14px;padding:22px}
+  .card .ic{width:44px;height:44px;border-radius:10px;background:rgba(28,157,247,.14);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:12px}
+  .card h3{font-size:17px;margin-bottom:6px}
+  .card p{color:var(--mut);font-size:14px}
+  .sec{padding:30px 0}
+  .sec h2{font-size:24px;text-align:center;margin-bottom:6px}
+  .sec .lead{color:var(--mut);text-align:center;max-width:560px;margin:0 auto 22px}
+  .svcs{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+  .svc{background:var(--ink);border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+  .svc b{color:var(--cyan2)}
+  .svc span{color:var(--mut);font-size:13px}
+  .rev{background:var(--ink);border:1px solid var(--line);border-radius:12px;padding:18px;margin-bottom:12px}
+  .rev .stars{font-size:14px;margin:0 0 6px}
+  .rev p{font-size:14px}.rev .who{color:var(--mut);font-size:13px;margin-top:6px}
+  .price{text-align:center;background:linear-gradient(135deg,rgba(16,185,129,.1),rgba(16,185,129,.02));border:1px solid rgba(16,185,129,.3);border-radius:16px;padding:30px;margin:24px 0}
+  .price .big{font-size:34px;font-weight:800}
+  .price .small{color:var(--mut);margin-top:6px}
+  .price .rr{color:var(--green);font-weight:700;margin-top:10px}
+  footer{text-align:center;color:var(--mut);font-size:13px;padding:30px 0 60px;border-top:1px solid var(--line);margin-top:20px}
+  /* chat widget */
+  #cbtn{position:fixed;bottom:22px;right:22px;width:62px;height:62px;border-radius:50%;background:linear-gradient(135deg,var(--cyan),var(--cyan2));border:none;cursor:pointer;font-size:28px;box-shadow:0 6px 24px rgba(28,157,247,.5);z-index:50}
+  #cbox{position:fixed;bottom:96px;right:22px;width:330px;max-width:calc(100vw - 44px);background:var(--ink);border:1px solid var(--cyan);border-radius:16px;overflow:hidden;display:none;z-index:50;box-shadow:0 12px 40px rgba(0,0,0,.6)}
+  #cbox.open{display:block}
+  .chead{background:linear-gradient(135deg,rgba(28,157,247,.2),rgba(28,157,247,.05));padding:14px 16px;border-bottom:1px solid var(--line)}
+  .chead b{font-size:15px}.chead .on{color:var(--green);font-size:12px}
+  #clog{height:300px;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px}
+  .msg{max-width:80%;padding:9px 13px;border-radius:14px;font-size:14px;line-height:1.45}
+  .bot{background:#13233d;align-self:flex-start;border-bottom-left-radius:4px}
+  .usr{background:linear-gradient(135deg,var(--cyan),var(--cyan2));color:#01050E;align-self:flex-end;border-bottom-right-radius:4px;font-weight:600}
+  .qr{display:flex;flex-wrap:wrap;gap:6px;padding:0 14px 12px}
+  .qr button{background:rgba(28,157,247,.12);border:1px solid rgba(28,157,247,.4);color:var(--cyan2);border-radius:14px;padding:6px 11px;font-size:12px;cursor:pointer}
+  .cin{display:flex;border-top:1px solid var(--line)}
+  .cin input{flex:1;background:transparent;border:none;color:#fff;padding:12px 14px;font-size:14px;outline:none}
+  .cin button{background:var(--cyan);border:none;color:#01050E;font-weight:800;padding:0 18px;cursor:pointer}
+</style>
+</head>
+<body>
+<div class="banner">DEMO built for <b>Diamond Medi Spa</b> by Singularity Systems · this is a sample, not your live site yet</div>
+<div class="wrap">
+  <header>
+    <span class="badge">AI Customer Engine</span>
+    <h1>Diamond Medi Spa<br><span class="g">books clients while you sleep</span></h1>
+    <p class="sub">Cosmetic injectables & skin treatments — and an AI that answers questions and locks in bookings 24/7, even at 11pm when you're closed.</p>
+    <div class="stars">★★★★★ <span style="color:#8aa0c0;font-size:14px">Google-rated Google reviews</span></div>
+    <br><a class="cta" href="#" onclick="openChat();return false">Try the AI assistant ↘</a>
+  </header>
+
+  <div class="grid">
+    <div class="card"><div class="ic">🌐</div><h3>AI website</h3><p>Fast, modern, built from your real Google reviews. Mobile-first, loads in under 2 seconds.</p></div>
+    <div class="card"><div class="ic">💬</div><h3>24/7 assistant</h3><p>Answers questions and books appointments after hours — catches the clients you'd otherwise lose.</p></div>
+    <div class="card"><div class="ic">⭐</div><h3>Google manager</h3><p>Auto-posts and replies to reviews so you show up first when locals search.</p></div>
+  </div>
+
+  <div class="sec">
+    <h2>Treatments</h2>
+    <p class="lead">Edit these per clinic — pulled live in the real build.</p>
+    <div class="svcs">
+      <div class="svc"><b>Anti-Wrinkle</b><br><span>Book in 30 seconds</span></div>
+      <div class="svc"><b>Dermal Filler</b><br><span>Book in 30 seconds</span></div>
+      <div class="svc"><b>Skin Needling</b><br><span>Book in 30 seconds</span></div>
+      <div class="svc"><b>Fat Dissolving</b><br><span>Book in 30 seconds</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <h2>What clients say</h2>
+    <div class="rev"><div class="stars">★★★★★</div><p>"Honestly the best in Adelaide — the team are lovely and the results speak for themselves."</p><div class="who">— a real Google review</div></div>
+    <div class="rev"><div class="stars">★★★★★</div><p>"Booked online in seconds and felt looked after the whole way. Highly recommend."</p><div class="who">— a real Google review</div></div>
+  </div>
+
+  <div class="price">
+    <div class="big">$1,500 <span style="font-size:18px;color:#8aa0c0">setup</span> + $250<span style="font-size:18px;color:#8aa0c0">/mo</span></div>
+    <div class="small">All three parts. Live in one week. One new client a month covers the retainer.</div>
+    <div class="rr">✓ You only pay once it's live and you're happy.</div>
+  </div>
+
+  <footer>This is a free sample for Diamond Medi Spa · Singularity Systems · Adelaide · contact@singularitysystems.com.au<br>Like it? Reply "show me" and the real one's live in a week.</footer>
+</div>
+
+<button id="cbtn" onclick="toggleChat()">💬</button>
+<div id="cbox">
+  <div class="chead"><b>Diamond Medi Spa assistant</b><br><span class="on">● online — replies instantly</span></div>
+  <div id="clog"></div>
+  <div class="qr" id="qr"></div>
+  <div class="cin"><input id="cinp" placeholder="Ask anything…" onkeydown="if(event.key==='Enter')sendMsg()"><button onclick="sendMsg()">Send</button></div>
+</div>
+
+<script>
+var CLINIC="Diamond Medi Spa";
+function toggleChat(){document.getElementById('cbox').classList.toggle('open');if(document.getElementById('clog').children.length===0)greet();}
+function openChat(){document.getElementById('cbox').classList.add('open');if(document.getElementById('clog').children.length===0)greet();}
+function add(t,who){var d=document.createElement('div');d.className='msg '+who;d.textContent=t;var l=document.getElementById('clog');l.appendChild(d);l.scrollTop=l.scrollHeight;}
+function bot(t){setTimeout(function(){add(t,'bot');},450);}
+function greet(){add("Hi! 👋 I'm "+CLINIC+"'s assistant. I can answer questions and book you in — even after hours. What can I help with?",'bot');chips(['Book an appointment','Prices','Opening hours']);}
+function chips(arr){var q=document.getElementById('qr');q.innerHTML='';arr.forEach(function(c){var b=document.createElement('button');b.textContent=c;b.onclick=function(){answer(c);};q.appendChild(b);});}
+function sendMsg(){var i=document.getElementById('cinp');if(!i.value.trim())return;answer(i.value.trim());i.value='';}
+function answer(t){add(t,'usr');var x=t.toLowerCase();
+  if(x.indexOf('book')>-1){bot("Love it. What day suits you? I've got spots this week — I can lock one in right now and send a confirmation. 📅");chips(['Tomorrow','This weekend','Next week']);}
+  else if(x.indexOf('price')>-1||x.indexOf('cost')>-1||x.indexOf('how much')>-1){bot("Happy to help! Treatments start from $XX. Want me to send the full price list or just book you a quick consult?");chips(['Send price list','Book a consult']);}
+  else if(x.indexOf('hour')>-1||x.indexOf('open')>-1){bot("We're open Mon–Sat. But I'm here 24/7 — so even now, I can book you in for when we're open. Want a spot?");chips(['Yes, book me','Maybe later']);}
+  else if(x.indexOf('tomorrow')>-1||x.indexOf('weekend')>-1||x.indexOf('next week')>-1||x.indexOf('yes')>-1){bot("Done — I've pencilled you in and sent a text to confirm. That's a booking "+CLINIC+" would've missed if no one was here to answer. That's the whole point. 🎯");chips(['Pretty cool','Tell me more']);}
+  else if(x.indexOf('cool')>-1||x.indexOf('more')>-1){bot("This is the demo — your real one connects to your booking system and calendar. Reply 'show me' to Daniel's email and it's live in a week. 🚀");}
+  else{bot("Good question — in the real build I'm trained on "+CLINIC+"'s exact treatments, prices and calendar, so I'd answer that instantly and book them in. Want to see the booking flow?");chips(['Book an appointment','Prices']);}
+}
+</script>
+</body>
+</html>
