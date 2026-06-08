@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Singularity Systems — AI Customer Engine for Adelaide Clinics</title>
+<meta name="description" content="An AI that answers your after-hours visitors and locks them in 24/7, plus keeps your Google profile active. Live in a week. You only pay once it's working.">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --navy0:#01050E;--navy1:#0C1530;--cyan:#1C9DF7;--glow:#5FD4F0;--soft:#CFF4FC;
+    --silver:#C5CCD4;--bezel:#76808E;--green:#10B981;--amber0:#F59E0B;--amber1:#FBBF24;--white:#fff;
+  }
+  html{scroll-behavior:smooth}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--navy0);color:#fff;line-height:1.6;overflow-x:hidden}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+  a{color:inherit;text-decoration:none}
+  .btn{display:inline-block;background:linear-gradient(135deg,var(--amber0),var(--amber1));color:#01050E;font-weight:900;letter-spacing:.4px;padding:15px 30px;border-radius:30px;font-size:15px;box-shadow:0 10px 30px rgba(245,158,11,.35);transition:transform .2s,box-shadow .2s}
+  .btn:hover{transform:translateY(-2px);box-shadow:0 14px 38px rgba(245,158,11,.5)}
+  .btn-ghost{background:transparent;border:1.5px solid var(--cyan);color:var(--glow);box-shadow:none}
+  .btn-ghost:hover{background:rgba(28,157,247,.12)}
+  /* hero */
+  header{position:relative;background:radial-gradient(ellipse at 50% -10%,rgba(28,157,247,.18),transparent 55%),linear-gradient(180deg,#0C1530,#01050E 80%);padding:22px 0 80px;overflow:hidden}
+  .gridbg{position:absolute;inset:0;background-image:linear-gradient(rgba(28,157,247,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(28,157,247,.05) 1px,transparent 1px);background-size:46px 46px;-webkit-mask:radial-gradient(ellipse at 50% 0,#000 30%,transparent 72%);mask:radial-gradient(ellipse at 50% 0,#000 30%,transparent 72%)}
+  nav{position:relative;display:flex;align-items:center;justify-content:space-between;padding:6px 0 0}
+  .brand{display:flex;align-items:center;gap:11px;font-weight:900;font-size:18px;letter-spacing:.3px}
+  .logo{width:38px;height:38px;border-radius:10px;background:radial-gradient(circle at 38% 32%,#fff,#5FD4F0 42%,#1C9DF7 100%);display:flex;align-items:center;justify-content:center;color:#01263d;font-weight:900;font-size:20px;box-shadow:0 0 22px rgba(28,157,247,.5)}
+  nav .meta{font-size:12px;color:var(--bezel);font-weight:700}
+  .hero{position:relative;text-align:center;padding-top:62px}
+  .pill{display:inline-flex;align-items:center;gap:8px;background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.35);color:#A9DFBF;font-size:12.5px;font-weight:800;letter-spacing:.6px;padding:7px 15px;border-radius:30px;margin-bottom:22px}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green)}
+  h1{font-size:clamp(30px,5.4vw,54px);line-height:1.08;font-weight:900;letter-spacing:-.5px}
+  h1 .hl{background:linear-gradient(120deg,var(--glow),var(--cyan));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .sub{max-width:640px;margin:20px auto 0;font-size:clamp(15px,2.1vw,19px);color:#C5D2E2}
+  .cta-row{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+  .trust{margin-top:26px;font-size:12.5px;color:var(--bezel)}
+  /* stat band */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:60px}
+  .stat{background:linear-gradient(160deg,rgba(118,128,142,.16),rgba(12,21,48,.5));border:1px solid #1E2A40;border-radius:14px;padding:20px 14px;text-align:center}
+  .stat .n{font-size:clamp(22px,3.4vw,30px);font-weight:900;color:var(--glow)}
+  .stat .l{font-size:10.5px;letter-spacing:1.5px;color:var(--bezel);font-weight:800;text-transform:uppercase;margin-top:6px}
+  /* sections */
+  section{padding:74px 0}
+  .eyebrow{text-align:center;color:var(--cyan);font-size:12px;font-weight:900;letter-spacing:2.5px;text-transform:uppercase}
+  h2{text-align:center;font-size:clamp(24px,3.6vw,36px);font-weight:900;margin-top:10px;letter-spacing:-.3px}
+  .lead{text-align:center;max-width:620px;margin:14px auto 0;color:#AEBCCE;font-size:15.5px}
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:46px}
+  .card{background:linear-gradient(160deg,rgba(118,128,142,.12),rgba(12,21,48,.4));border:1px solid #1E2A40;border-radius:16px;padding:26px 22px;transition:border-color .25s,transform .25s}
+  .card:hover{border-color:var(--cyan);transform:translateY(-3px)}
+  .ic{width:46px;height:46px;border-radius:12px;background:rgba(28,157,247,.12);border:1px solid rgba(28,157,247,.4);display:flex;align-items:center;justify-content:center;margin-bottom:16px}
+  .card h3{font-size:17px;font-weight:800;margin-bottom:8px}
+  .card p{font-size:14px;color:#A8B6C8}
+  /* problem strip */
+  .leak{background:linear-gradient(180deg,#0C1530,#01050E);border-top:1px solid #16203400;border-bottom:1px solid #16203400}
+  .leakgrid{display:grid;grid-template-columns:1.1fr 1fr;gap:40px;align-items:center}
+  .leakgrid ul{list-style:none;margin-top:18px}
+  .leakgrid li{display:flex;gap:12px;align-items:flex-start;margin-bottom:14px;font-size:15px;color:#C5D2E2}
+  .chk{flex-shrink:0;width:22px;height:22px;border-radius:50%;background:rgba(16,185,129,.14);border:1px solid rgba(16,185,129,.5);display:flex;align-items:center;justify-content:center;color:var(--green);font-size:12px;font-weight:900}
+  .panel{background:radial-gradient(ellipse at 50% 0,rgba(28,157,247,.14),transparent 60%),#0A111B;border:1px solid #1E2A40;border-radius:18px;padding:30px;text-align:center}
+  .panel .big{font-size:46px;font-weight:900;color:var(--glow);line-height:1}
+  .panel .cap{font-size:13px;color:var(--bezel);margin-top:8px}
+  /* pricing */
+  .price{max-width:560px;margin:46px auto 0;background:radial-gradient(ellipse at 50% 0,rgba(28,157,247,.16),transparent 60%),linear-gradient(160deg,rgba(118,128,142,.14),rgba(12,21,48,.55));border:1.5px solid var(--cyan);border-radius:22px;padding:40px 34px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+  .price .tag{font-size:13px;letter-spacing:2px;color:var(--cyan);font-weight:900;text-transform:uppercase}
+  .price .amt{font-size:52px;font-weight:900;margin-top:12px;letter-spacing:-1px}
+  .price .amt small{font-size:18px;color:var(--bezel);font-weight:700}
+  .price .then{font-size:15px;color:#C5D2E2;margin-top:4px}
+  .price ul{list-style:none;margin:26px 0;text-align:left;max-width:340px;margin-left:auto;margin-right:auto}
+  .price li{display:flex;gap:11px;align-items:center;margin-bottom:12px;font-size:14.5px;color:#D6E2F0}
+  .guarantee{margin-top:22px;font-size:13px;color:#A9DFBF;font-weight:700}
+  /* steps */
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:46px}
+  .step{text-align:center;padding:0 8px}
+  .step .num{width:42px;height:42px;border-radius:50%;margin:0 auto 14px;background:rgba(28,157,247,.12);border:1px solid var(--cyan);color:var(--glow);font-weight:900;display:flex;align-items:center;justify-content:center;font-size:17px}
+  .step h4{font-size:15px;font-weight:800;margin-bottom:5px}
+  .step p{font-size:13px;color:#A8B6C8}
+  /* final cta */
+  .final{text-align:center;background:radial-gradient(ellipse at 50% 120%,rgba(28,157,247,.2),transparent 60%)}
+  .final h2{font-size:clamp(26px,4vw,40px)}
+  footer{border-top:1px solid #16203a;padding:30px 0;text-align:center;color:var(--bezel);font-size:12.5px}
+  footer .brand{justify-content:center;font-size:15px;margin-bottom:10px;color:#fff}
+  @media(max-width:760px){.stats{grid-template-columns:repeat(2,1fr)}.cards{grid-template-columns:1fr}.leakgrid{grid-template-columns:1fr}.steps{grid-template-columns:repeat(2,1fr)}nav .meta{display:none}}
+</style>
+</head>
+<body>
+<header>
+  <div class="gridbg"></div>
+  <div class="wrap">
+    <nav>
+      <div class="brand"><div class="logo">S</div> Singularity&nbsp;Systems</div>
+      <div class="meta">Adelaide&nbsp;·&nbsp;ABN&nbsp;16&nbsp;726&nbsp;623&nbsp;622</div>
+    </nav>
+    <div class="hero">
+      <span class="pill"><span class="dot"></span> NOW BUILDING FOR ADELAIDE CLINICS</span>
+      <h1>Stop losing the clients who land on your page <span class="hl">after hours</span>.</h1>
+      <p class="sub">Singularity Systems builds you an AI Customer Engine — it answers your after-hours visitors, locks them in 24/7, and keeps your Google profile active so you turn up first. Live in a week.</p>
+      <div class="cta-row">
+        <a class="btn" href="mailto:contact@singularitysystems.com.au?subject=Free%20demo%20for%20my%20clinic&body=Hi%20Daniel%2C%20I'd%20like%20to%20see%20a%20free%20demo%20built%20for%20my%20clinic.">Get a free demo built for your clinic →</a>
+        <a class="btn btn-ghost" href="#how">See how it works</a>
+      </div>
+      <p class="trust">No lock-in · You only pay once it's live and you're happy</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="n">24/7</div><div class="l">Always answering</div></div>
+      <div class="stat"><div class="n">1 week</div><div class="l">To live</div></div>
+      <div class="stat"><div class="n">$0</div><div class="l">Until you're happy</div></div>
+      <div class="stat"><div class="n">#1</div><div class="l">On your Google area</div></div>
+    </div>
+  </div>
+</header>
+
+<section id="what">
+  <div class="wrap">
+    <div class="eyebrow">The AI Customer Engine</div>
+    <h2>Three systems. One quiet employee that never sleeps.</h2>
+    <p class="lead">Built for clinics — med spas, dental, physio, allied health — that get found online but lose people who arrive after the front desk goes home.</p>
+    <div class="cards">
+      <div class="card">
+        <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#5FD4F0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18M9 21V9"/></svg></div>
+        <h3>AI Website</h3>
+        <p>A fast, modern site that loads in seconds and turns a curious visitor into a booked client — instead of a bounce.</p>
+      </div>
+      <div class="card">
+        <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#5FD4F0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+        <h3>AI Front Desk</h3>
+        <p>Answers questions, handles enquiries and captures details the moment someone lands — 11pm on a Sunday included.</p>
+      </div>
+      <div class="card">
+        <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#5FD4F0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 7.4H22l-6 4.4 2.3 7.2L12 16.8 5.7 21l2.3-7.2-6-4.4h7.6z"/></svg></div>
+        <h3>Google Profile Manager</h3>
+        <p>Keeps your Google Business Profile active and fresh so you show up first when someone nearby searches for you.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="leak">
+  <div class="wrap">
+    <div class="leakgrid">
+      <div>
+        <div class="eyebrow" style="text-align:left">The leak you can't see</div>
+        <h2 style="text-align:left;margin-top:10px">Your booking system only looks after people who already chose you.</h2>
+        <ul>
+          <li><span class="chk">✓</span> Someone finds you at 9pm, has one question, and leaves without booking.</li>
+          <li><span class="chk">✓</span> A new patient lands on a slow page, waits, and clicks back to a competitor.</li>
+          <li><span class="chk">✓</span> A great review window passes because the profile sat untouched for weeks.</li>
+        </ul>
+        <p style="color:#AEBCCE;font-size:15px;margin-top:6px">That's quiet lost revenue, every single week. The Customer Engine plugs it — automatically.</p>
+      </div>
+      <div class="panel">
+        <div class="big">1 client</div>
+        <div class="cap">a month more than covers the whole thing.</div>
+        <div style="height:1px;background:#1E2A40;margin:24px 0"></div>
+        <div class="big" style="font-size:34px">After-hours</div>
+        <div class="cap">is when most people actually look you up.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="wrap">
+    <div class="eyebrow">Straight pricing</div>
+    <h2>One setup. One small monthly. No lock-in.</h2>
+    <div class="price">
+      <div class="tag">AI Customer Engine</div>
+      <div class="amt">$1,500 <small>setup</small></div>
+      <div class="then">then $250/month · cancel anytime</div>
+      <ul>
+        <li><span class="chk">✓</span> AI website built and live</li>
+        <li><span class="chk">✓</span> AI front desk answering 24/7</li>
+        <li><span class="chk">✓</span> Google Profile kept active</li>
+        <li><span class="chk">✓</span> Live inside one week</li>
+      </ul>
+      <a class="btn" href="mailto:contact@singularitysystems.com.au?subject=Free%20demo%20for%20my%20clinic&body=Hi%20Daniel%2C%20I'd%20like%20a%20free%20demo%20for%20my%20clinic.">Start with a free demo →</a>
+      <div class="guarantee">You only pay once it's live and you're happy. That's the deal.</div>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <div class="eyebrow">How it works</div>
+    <h2>From hello to live in a week.</h2>
+    <div class="steps">
+      <div class="step"><div class="num">1</div><h4>Free demo</h4><p>I build you a real sample of your new site — no cost, no commitment.</p></div>
+      <div class="step"><div class="num">2</div><h4>You see it</h4><p>You look at the actual thing, not a pitch. Like it? We go.</p></div>
+      <div class="step"><div class="num">3</div><h4>Go live</h4><p>The full engine is built and switched on inside a week.</p></div>
+      <div class="step"><div class="num">4</div><h4>It earns</h4><p>It captures your after-hours visitors 24/7. You pay once it's working.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="final">
+  <div class="wrap">
+    <div class="eyebrow">Adelaide clinics</div>
+    <h2>See what yours could look like — free.</h2>
+    <p class="lead">I'll build a real demo for your clinic so you can see it, not just picture it. If it's not for you, no worries at all.</p>
+    <div class="cta-row" style="margin-top:30px">
+      <a class="btn" href="mailto:contact@singularitysystems.com.au?subject=Free%20demo%20for%20my%20clinic&body=Hi%20Daniel%2C%20I'd%20like%20a%20free%20demo%20for%20my%20clinic.">Get my free demo →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="brand"><div class="logo" style="width:30px;height:30px;font-size:16px">S</div> Singularity Systems</div>
+    <div>Adelaide, South Australia · ABN 16 726 623 622</div>
+    <div style="margin-top:6px"><a href="mailto:contact@singularitysystems.com.au" style="color:var(--glow)">contact@singularitysystems.com.au</a></div>
+    <div style="margin-top:14px;color:#4A5868">© 2026 Singularity Systems. AI Customer Engine for clinics.</div>
+  </div>
+</footer>
+</body>
+</html>
