@@ -1,0 +1,43 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Singularity Voice</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}body{background:radial-gradient(ellipse at top,#0E1A33,#01050E 70%);min-height:100vh;font-family:Bahnschrift,'Segoe UI',sans-serif;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;padding:20px}
+h1{font-size:22px;font-weight:900;color:#9DD8FF;letter-spacing:1px}
+#orb{width:170px;height:170px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#1C9DF7,#0C1530 70%);border:2px solid #1C9DF7;box-shadow:0 0 60px rgba(28,157,247,.5);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:54px;transition:.3s;user-select:none}
+#orb.live{box-shadow:0 0 100px rgba(28,157,247,.9);transform:scale(1.06);border-color:#5FD4F0}
+#state{font-size:11px;font-weight:900;letter-spacing:2.5px;color:#5FD4F0;text-transform:uppercase}
+#heard{min-height:60px;max-width:640px;text-align:center;font-size:19px;color:#CFF4FC;line-height:1.5}
+#hint{font-size:12px;color:#76808E;text-align:center;max-width:520px;line-height:1.7}
+select{background:#0A111B;border:1px solid #1C9DF7;border-radius:8px;color:#CFF4FC;padding:8px 12px;font-size:13px;max-width:320px}
+.ok{color:#10B981;font-weight:900}
+</style></head><body>
+<h1>🎙 SINGULARITY VOICE · Chrome mode</h1>
+<div id="orb">🎤</div>
+<div id="state">TAP THE ORB TO TALK</div>
+<div id="heard"></div>
+<div><select id="vsel"><option>loading voices…</option></select></div>
+<div id="hint">Tap → talk → I read it back and <b>copy it as a command</b> → paste into Singularity chat (Ctrl+V).<br>Say "studio edit" first for editor changes · works fully in Chrome with real mic access.</div>
+<script>
+var SR=window.SpeechRecognition||window.webkitSpeechRecognition, rec=null, live=false;
+var orb=document.getElementById('orb'),st=document.getElementById('state'),hd=document.getElementById('heard');
+function pickVoice(){var vs=speechSynthesis.getVoices();var w=localStorage.getItem('sg_voice');
+ if(w){var m=vs.find(function(x){return x.name===w});if(m)return m;}
+ return vs.find(function(x){return /natural/i.test(x.name)&&/en/i.test(x.lang)&&/guy|ryan|william|liam|mitchell|connor/i.test(x.name)})||vs.find(function(x){return /natural/i.test(x.name)&&/en-(GB|AU)/i.test(x.lang)})||vs.find(function(x){return /en-(AU|GB)/i.test(x.lang)})||vs[0];}
+function fillVoices(){var s=document.getElementById('vsel');var vs=speechSynthesis.getVoices().filter(function(x){return /en/i.test(x.lang)});if(!vs.length)return;
+ var cur=localStorage.getItem('sg_voice')||((pickVoice()||{}).name);
+ s.innerHTML=vs.map(function(v){return '<option'+(v.name===cur?' selected':'')+'>'+v.name+'</option>'}).join('');
+ s.onchange=function(){localStorage.setItem('sg_voice',s.value);say('Voice locked in, Daniel.');};}
+speechSynthesis.onvoiceschanged=fillVoices;setTimeout(fillVoices,600);
+function say(t){speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(t);u.pitch=.8;u.rate=1.06;var v=pickVoice();if(v)u.voice=v;speechSynthesis.speak(u);}
+function copyCmd(t){try{navigator.clipboard.writeText(t);}catch(e){}}
+orb.onclick=function(){
+ if(!SR){st.textContent='SPEECH NOT SUPPORTED — USE CHROME';return;}
+ if(live){rec.stop();return;}
+ rec=new SR();rec.lang='en-AU';rec.interimResults=true;
+ rec.onstart=function(){live=true;orb.classList.add('live');st.textContent='LISTENING…';hd.textContent='';};
+ rec.onresult=function(e){var t='';for(var i=0;i<e.results.length;i++)t+=e.results[i][0].transcript;hd.textContent='“'+t+'”';
+  if(e.results[e.results.length-1].isFinal){copyCmd(t);st.innerHTML='<span class="ok">✓ COPIED — PASTE IN SINGULARITY CHAT</span>';say('Copied. Paste it in chat, boss.');}};
+ rec.onend=function(){live=false;orb.classList.remove('live');if(st.textContent==='LISTENING…')st.textContent='TAP THE ORB TO TALK';};
+ rec.onerror=function(e){live=false;orb.classList.remove('live');st.textContent='MIC ERROR: '+e.error+' — allow microphone in Chrome';};
+ rec.start();};
+</script></body></html>
