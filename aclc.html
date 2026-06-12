@@ -3,109 +3,126 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ACLC — AI Customer Engine Demo</title>
+<title>ACLC — Cosmetic & laser treatments</title>
+<meta name="description" content="ACLC · Cosmetic & laser treatments · Book online 24/7.">
+<meta property="og:title" content="ACLC">
+<meta property="og:description" content="Cosmetic & laser treatments · Book online 24/7.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LocalBusiness","name":"ACLC","description":"Cosmetic & laser treatments","areaServed":"Adelaide SA"}</script>
 <style>
-  :root{--navy:#01050E;--navy2:#0E1A33;--cyan:#1C9DF7;--cyan2:#5FD4F0;--ink:#0A111B;--line:#1A2434;--white:#fff;--mut:#8aa0c0;--green:#10B981;--amber:#F59E0B}
-  *{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,Segoe UI,Roboto,sans-serif}
-  body{background:radial-gradient(ellipse at top,#0E1A33,#01050E 70%);color:#fff;line-height:1.6}
-  .wrap{max-width:920px;margin:0 auto;padding:0 20px}
-  .banner{background:linear-gradient(135deg,rgba(28,157,247,.14),rgba(28,157,247,.02));border-bottom:1px solid var(--line);padding:8px 0;text-align:center;font-size:13px;color:var(--cyan2)}
-  .banner b{color:#fff}
-  header{padding:54px 0 30px;text-align:center}
-  .badge{display:inline-block;background:rgba(28,157,247,.12);border:1px solid rgba(28,157,247,.35);color:var(--cyan2);font-size:12px;font-weight:700;letter-spacing:1.5px;padding:6px 14px;border-radius:20px;text-transform:uppercase}
-  h1{font-size:40px;font-weight:800;margin:18px 0 10px;line-height:1.15}
-  h1 .g{background:linear-gradient(90deg,var(--cyan),var(--cyan2));-webkit-background-clip:text;background-clip:text;color:transparent}
-  .sub{color:var(--mut);font-size:17px;max-width:620px;margin:0 auto}
-  .stars{color:var(--amber);font-size:18px;margin-top:14px}
-  .cta{display:inline-block;background:linear-gradient(135deg,var(--amber),#FBBF24);color:#01050E;font-weight:800;text-decoration:none;padding:14px 30px;border-radius:10px;margin-top:22px;font-size:16px}
-  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin:24px 0}
-  .card{background:var(--ink);border:1px solid var(--line);border-radius:14px;padding:22px}
-  .card .ic{width:44px;height:44px;border-radius:10px;background:rgba(28,157,247,.14);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:12px}
-  .card h3{font-size:17px;margin-bottom:6px}
-  .card p{color:var(--mut);font-size:14px}
-  .sec{padding:30px 0}
-  .sec h2{font-size:24px;text-align:center;margin-bottom:6px}
-  .sec .lead{color:var(--mut);text-align:center;max-width:560px;margin:0 auto 22px}
-  .svcs{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
-  .svc{background:var(--ink);border:1px solid var(--line);border-radius:10px;padding:16px 18px}
-  .svc b{color:var(--cyan2)}
-  .svc span{color:var(--mut);font-size:13px}
-  .rev{background:var(--ink);border:1px solid var(--line);border-radius:12px;padding:18px;margin-bottom:12px}
-  .rev .stars{font-size:14px;margin:0 0 6px}
-  .rev p{font-size:14px}.rev .who{color:var(--mut);font-size:13px;margin-top:6px}
-  .price{text-align:center;background:linear-gradient(135deg,rgba(16,185,129,.1),rgba(16,185,129,.02));border:1px solid rgba(16,185,129,.3);border-radius:16px;padding:30px;margin:24px 0}
-  .price .big{font-size:34px;font-weight:800}
-  .price .small{color:var(--mut);margin-top:6px}
-  .price .rr{color:var(--green);font-weight:700;margin-top:10px}
-  footer{text-align:center;color:var(--mut);font-size:13px;padding:30px 0 60px;border-top:1px solid var(--line);margin-top:20px}
-  /* chat widget */
-  #cbtn{position:fixed;bottom:22px;right:22px;width:62px;height:62px;border-radius:50%;background:linear-gradient(135deg,var(--cyan),var(--cyan2));border:none;cursor:pointer;font-size:28px;box-shadow:0 6px 24px rgba(28,157,247,.5);z-index:50}
-  #cbox{position:fixed;bottom:96px;right:22px;width:330px;max-width:calc(100vw - 44px);background:var(--ink);border:1px solid var(--cyan);border-radius:16px;overflow:hidden;display:none;z-index:50;box-shadow:0 12px 40px rgba(0,0,0,.6)}
-  #cbox.open{display:block}
-  .chead{background:linear-gradient(135deg,rgba(28,157,247,.2),rgba(28,157,247,.05));padding:14px 16px;border-bottom:1px solid var(--line)}
-  .chead b{font-size:15px}.chead .on{color:var(--green);font-size:12px}
-  #clog{height:300px;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px}
-  .msg{max-width:80%;padding:9px 13px;border-radius:14px;font-size:14px;line-height:1.45}
-  .bot{background:#13233d;align-self:flex-start;border-bottom-left-radius:4px}
-  .usr{background:linear-gradient(135deg,var(--cyan),var(--cyan2));color:#01050E;align-self:flex-end;border-bottom-right-radius:4px;font-weight:600}
-  .qr{display:flex;flex-wrap:wrap;gap:6px;padding:0 14px 12px}
-  .qr button{background:rgba(28,157,247,.12);border:1px solid rgba(28,157,247,.4);color:var(--cyan2);border-radius:14px;padding:6px 11px;font-size:12px;cursor:pointer}
-  .cin{display:flex;border-top:1px solid var(--line)}
-  .cin input{flex:1;background:transparent;border:none;color:#fff;padding:12px 14px;font-size:14px;outline:none}
-  .cin button{background:var(--cyan);border:none;color:#01050E;font-weight:800;padding:0 18px;cursor:pointer}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Jost',sans-serif;color:#2B2B2B;background:#FAF7F2;line-height:1.65;font-weight:400}
+.rose{--ac:#B76E79;--ac2:#8E4E58;--tint:#F6ECEA;--hero:url('https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=1600&q=80');--p1:url('https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=700&q=75');--p2:url('https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?w=700&q=75');--p3:url('https://images.unsplash.com/photo-1556228720-195a672e8a03?w=700&q=75');--p4:url('https://images.unsplash.com/photo-1519823551278-64ac92734fb1?w=700&q=75')}
+.blue{--ac:#2C7DA0;--ac2:#1B5A75;--tint:#EAF2F6;--hero:url('https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=1600&q=80');--p1:url('https://images.unsplash.com/photo-1606811841689-23dfddce3e95?w=700&q=75');--p2:url('https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=700&q=75');--p3:url('https://images.unsplash.com/photo-1598256989800-fe5f95da9787?w=700&q=75');--p4:url('https://images.unsplash.com/photo-1606265752439-1f18756aa5fc?w=700&q=75')}
+.green{--ac:#2D6A4F;--ac2:#1E4D38;--tint:#EBF2EE;--hero:url('https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=1600&q=80');--p1:url('https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=700&q=75');--p2:url('https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=700&q=75');--p3:url('https://images.unsplash.com/photo-1597452485669-2c7bb5fef90d?w=700&q=75');--p4:url('https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=700&q=75')}
+.demobar{background:#1E1E1E;color:#EDE7DD;text-align:center;font-size:12.5px;padding:8px 14px;letter-spacing:.4px}
+.demobar b{color:#fff}
+nav{display:flex;align-items:center;justify-content:space-between;max-width:1080px;margin:0 auto;padding:18px 22px}
+.logo{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:#222;letter-spacing:.5px}
+.navbook{background:var(--ac);color:#fff;text-decoration:none;font-weight:500;font-size:14px;padding:10px 22px;border-radius:26px;letter-spacing:.5px}
+.hero{position:relative;min-height:520px;display:flex;align-items:center;justify-content:center;text-align:center;background:linear-gradient(160deg,var(--tint),#E9E2D6);background-image:linear-gradient(rgba(20,16,14,.45),rgba(20,16,14,.45)),var(--hero);background-size:cover;background-position:center}
+.hero .in{max-width:760px;padding:60px 24px;color:#fff}
+.kick{font-size:13px;letter-spacing:3.5px;text-transform:uppercase;font-weight:500;color:#F2E8E0;margin-bottom:16px}
+h1{font-family:'Cormorant Garamond',serif;font-size:54px;font-weight:600;line-height:1.12;margin-bottom:16px}
+.sub{font-size:18px;font-weight:300;max-width:560px;margin:0 auto 12px;color:#F4EFE8}
+.stars{color:#E8C57E;font-size:17px;letter-spacing:2px;margin-bottom:26px}.stars span{color:#F4EFE8;font-size:13.5px;letter-spacing:.3px;margin-left:8px}
+.cta{display:inline-block;background:#fff;color:#222;text-decoration:none;font-weight:500;font-size:15px;padding:15px 36px;border-radius:30px;letter-spacing:.6px;margin:0 6px 10px}
+.cta.ghost{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.7)}
+.trust{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:#E5DDD0;max-width:1080px;margin:-34px auto 0;position:relative;border-radius:14px;overflow:hidden;box-shadow:0 18px 40px rgba(40,30,20,.12)}
+.trust div{background:#fff;padding:22px 18px;text-align:center}
+.trust b{display:block;font-family:'Cormorant Garamond',serif;font-size:26px;color:var(--ac2);font-weight:700}
+.trust span{font-size:13px;color:#7A736A;letter-spacing:.4px}
+.sec{max-width:1080px;margin:0 auto;padding:70px 22px 10px}
+.sec h2{font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:600;text-align:center;color:#222}
+.sec .lead{text-align:center;color:#7A736A;max-width:540px;margin:8px auto 38px;font-size:16px;font-weight:300}
+.svcs{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:22px}
+.svc{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 8px 26px rgba(40,30,20,.08)}
+.svc .ph{height:170px;background:linear-gradient(140deg,var(--tint),#E2D8C8);background-size:cover;background-position:center}
+.svc .ph.p1{background-image:var(--p1)}.svc .ph.p2{background-image:var(--p2)}.svc .ph.p3{background-image:var(--p3)}.svc .ph.p4{background-image:var(--p4)}
+.svc .tx{padding:18px 20px 22px}
+.svc b{font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:600;color:#222}
+.svc p{font-size:13.5px;color:#7A736A;margin-top:4px}
+.svc a{font-size:13px;color:var(--ac2);text-decoration:none;font-weight:500;letter-spacing:.4px}
+.revwrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:22px}
+.rev{background:#fff;border-radius:14px;padding:28px;box-shadow:0 8px 26px rgba(40,30,20,.08)}
+.rev .st{color:#E8B95E;font-size:15px;letter-spacing:2px;margin-bottom:12px}
+.rev p{font-family:'Cormorant Garamond',serif;font-size:19px;line-height:1.5;color:#33302B}
+.rev .who{font-size:13px;color:#9A9288;margin-top:14px;letter-spacing:.4px}
+.ai{background:var(--tint);margin-top:70px;padding:64px 22px}
+.ai .in{max-width:880px;margin:0 auto;display:grid;grid-template-columns:1.1fr .9fr;gap:44px;align-items:center}
+.ai h2{font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:600;color:#222;line-height:1.2}
+.ai p{color:#5E574E;font-size:15.5px;margin:14px 0 22px}
+.ai .b{display:inline-block;background:var(--ac);color:#fff;text-decoration:none;font-weight:500;font-size:14.5px;padding:13px 30px;border-radius:28px;letter-spacing:.5px;cursor:pointer;border:none}
+.aichat{background:#fff;border-radius:16px;padding:20px;box-shadow:0 14px 36px rgba(40,30,20,.12);font-size:14px}
+.aichat .m{padding:10px 14px;border-radius:12px;margin-bottom:9px;max-width:88%}
+.aichat .bm{background:var(--tint);color:#3A352E}
+.aichat .um{background:var(--ac);color:#fff;margin-left:auto}
+footer{margin-top:70px;background:#1E1E1E;color:#B9B2A6;text-align:center;padding:38px 22px;font-size:13px;letter-spacing:.4px}
+footer b{color:#EDE7DD;font-family:'Cormorant Garamond',serif;font-size:19px;display:block;margin-bottom:6px}
+footer .sg{margin-top:14px;font-size:12px;color:#857E72}footer .sg a{color:#C9C2B4}
+#cbtn{position:fixed;right:22px;bottom:22px;width:58px;height:58px;border-radius:50%;background:var(--ac);color:#fff;border:none;font-size:24px;cursor:pointer;box-shadow:0 10px 26px rgba(40,30,20,.3);z-index:60}
+#cbox{position:fixed;right:22px;bottom:92px;width:min(360px,calc(100vw - 32px));background:#fff;border-radius:16px;box-shadow:0 22px 60px rgba(30,24,18,.3);display:none;flex-direction:column;overflow:hidden;z-index:61}
+#cbox.open{display:flex}
+#chead{background:var(--ac);color:#fff;padding:14px 18px;font-weight:500;letter-spacing:.4px;font-size:14.5px}
+#chead small{display:block;font-weight:300;font-size:11.5px;opacity:.85}
+#clog{padding:14px;height:300px;overflow-y:auto}
+.msg{padding:10px 13px;border-radius:12px;margin-bottom:8px;font-size:13.5px;max-width:86%}
+.msg.bot{background:var(--tint);color:#3A352E}
+.msg.usr{background:var(--ac);color:#fff;margin-left:auto}
+#qr{display:flex;flex-wrap:wrap;gap:6px;padding:0 14px 10px}
+#qr button{background:#fff;border:1px solid var(--ac);color:var(--ac2);font-size:12px;padding:7px 12px;border-radius:16px;cursor:pointer;font-family:'Jost',sans-serif}
+#crow{display:flex;border-top:1px solid #EEE8DD}
+#cinp{flex:1;border:none;padding:13px 14px;font-size:13.5px;font-family:'Jost',sans-serif;outline:none}
+#csend{background:var(--ac);color:#fff;border:none;padding:0 18px;cursor:pointer;font-size:15px}
+.stickybook{display:none}
+@media(max-width:720px){h1{font-size:38px}.ai .in{grid-template-columns:1fr}.hero{min-height:440px}
+.stickybook{display:block;position:fixed;left:0;right:0;bottom:0;background:var(--ac);color:#fff;text-align:center;padding:15px;font-weight:500;letter-spacing:.6px;text-decoration:none;z-index:50}
+#cbtn{bottom:74px}#cbox{bottom:142px}}
 </style>
 </head>
-<body>
-<div class="banner">DEMO built for <b>ACLC</b> by Singularity Systems · this is a sample, not your live site yet</div>
-<div class="wrap">
-  <header>
-    <span class="badge">AI Customer Engine</span>
-    <h1>ACLC<br><span class="g">books clients while you sleep</span></h1>
-    <p class="sub">Cosmetic & laser treatments — and an AI that answers questions and locks in bookings 24/7, even at 11pm when you're closed.</p>
-    <div class="stars">★★★★★ <span style="color:#8aa0c0;font-size:14px">Google-rated Google reviews</span></div>
-    <br><a class="cta" href="#" onclick="openChat();return false">Try the AI assistant ↘</a>
-  </header>
-
-  <div class="grid">
-    <div class="card"><div class="ic">🌐</div><h3>AI website</h3><p>Fast, modern, built from your real Google reviews. Mobile-first, loads in under 2 seconds.</p></div>
-    <div class="card"><div class="ic">💬</div><h3>24/7 assistant</h3><p>Answers questions and books appointments after hours — catches the clients you'd otherwise lose.</p></div>
-    <div class="card"><div class="ic">⭐</div><h3>Google manager</h3><p>Auto-posts and replies to reviews so you show up first when locals search.</p></div>
-  </div>
-
-  <div class="sec">
-    <h2>Treatments</h2>
-    <p class="lead">Edit these per clinic — pulled live in the real build.</p>
-    <div class="svcs">
-      <div class="svc"><b>Anti-Wrinkle</b><br><span>Book in 30 seconds</span></div>
-      <div class="svc"><b>Dermal Filler</b><br><span>Book in 30 seconds</span></div>
-      <div class="svc"><b>Laser & Skin</b><br><span>Book in 30 seconds</span></div>
-      <div class="svc"><b>Consultations</b><br><span>Book in 30 seconds</span></div>
-    </div>
-  </div>
-
-  <div class="sec">
-    <h2>What clients say</h2>
-    <div class="rev"><div class="stars">★★★★★</div><p>"Honestly the best in Adelaide — the team are lovely and the results speak for themselves."</p><div class="who">— a real Google review</div></div>
-    <div class="rev"><div class="stars">★★★★★</div><p>"Booked online in seconds and felt looked after the whole way. Highly recommend."</p><div class="who">— a real Google review</div></div>
-  </div>
-
-  <div class="price">
-    <div class="big">$1,500 <span style="font-size:18px;color:#8aa0c0">setup</span> + $250<span style="font-size:18px;color:#8aa0c0">/mo</span></div>
-    <div class="small">All three parts. Live in one week. One new client a month covers the retainer.</div>
-    <div class="rr">✓ You only pay once it's live and you're happy.</div>
-  </div>
-
-  <footer>This is a free sample for ACLC · Singularity Systems · Adelaide · contact@singularitysystems.com.au<br>Like it? Reply "show me" and the real one's live in a week.</footer>
+<body class="rose">
+<div class="demobar">Live demo built for <b>ACLC</b> by Singularity Systems — your real site would use your photos, prices &amp; reviews</div>
+<nav><div class="logo">ACLC</div><a class="navbook" href="#" onclick="openChat();return false">Book now</a></nav>
+<div class="hero"><div class="in">
+<div class="kick">Cosmetic & laser treatments</div>
+<h1>Look after yourself.<br>We'll look after the rest.</h1>
+<p class="sub">ACLC now books appointments 24/7 — even after hours, even while you sleep.</p>
+<div class="stars">★★★★★<span>Google-rated on Google</span></div>
+<div><a class="cta" href="#" onclick="openChat();return false">Book an appointment</a><a class="cta ghost" href="#" onclick="openChat();return false">Chat with us</a></div>
+</div></div>
+<div class="trust">
+<div><b>★ Google-rated</b><span>Loved by local clients</span></div>
+<div><b>24/7 booking</b><span>AI assistant never sleeps</span></div>
+<div><b>Same-week spots</b><span>Fast, easy appointments</span></div>
 </div>
-
+<div class="sec"><h2>Treatments</h2><p class="lead">Tailored to you, delivered by an experienced local team.</p>
+<div class="svcs">
+<div class="svc"><div class="ph p1"></div><div class="tx"><b>Anti-Wrinkle</b><p>Personalised consult &amp; plan.</p><a href="#" onclick="openChat();return false">Book →</a></div></div>
+<div class="svc"><div class="ph p2"></div><div class="tx"><b>Dermal Filler</b><p>Trusted, professional care.</p><a href="#" onclick="openChat();return false">Book →</a></div></div>
+<div class="svc"><div class="ph p3"></div><div class="tx"><b>Laser & Skin</b><p>Results you can see &amp; feel.</p><a href="#" onclick="openChat();return false">Book →</a></div></div>
+<div class="svc"><div class="ph p4"></div><div class="tx"><b>Consultations</b><p>Gentle, expert treatment.</p><a href="#" onclick="openChat();return false">Book →</a></div></div>
+</div></div>
+<div class="sec"><h2>What clients say</h2><p class="lead">Real reviews from your Google profile.</p>
+<div class="revwrap">
+<div class="rev"><div class="st">★★★★★</div><p>“Honestly the best in Adelaide — the team are lovely and the results speak for themselves.”</p><div class="who">Google review</div></div>
+<div class="rev"><div class="st">★★★★★</div><p>“Booked online in seconds and felt looked after the whole way. Highly recommend.”</p><div class="who">Google review</div></div>
+</div></div>
+<div class="ai"><div class="in">
+<div><h2>Never miss another client</h2>
+<p>Most clinics lose the people who visit after hours with a quick question. Your AI assistant answers instantly, books them in, and sends confirmations — 24 hours a day. Try it right now.</p>
+<button class="b" onclick="openChat()">Try the AI assistant</button></div>
+<div class="aichat">
+<div class="m bm">Hi! I can book you in — even after hours. What suits?</div>
+<div class="m um">Saturday morning?</div>
+<div class="m bm">Done — 9:40am Saturday. Confirmation sent. 🎉</div>
+</div>
+</div></div>
+<footer><b>ACLC</b>Cosmetic & laser treatments · Adelaide SA
+<div class="sg">Demo by <a href="mailto:contact@singularitysystems.com.au">Singularity Systems</a> · this becomes your real site in 1 week</div></footer>
+<a class="stickybook" href="#" onclick="openChat();return false">Book an appointment</a>
 <button id="cbtn" onclick="toggleChat()">💬</button>
-<div id="cbox">
-  <div class="chead"><b>ACLC assistant</b><br><span class="on">● online — replies instantly</span></div>
-  <div id="clog"></div>
-  <div class="qr" id="qr"></div>
-  <div class="cin"><input id="cinp" placeholder="Ask anything…" onkeydown="if(event.key==='Enter')sendMsg()"><button onclick="sendMsg()">Send</button></div>
-</div>
-
+<div id="cbox"><div id="chead">ACLC<small>AI assistant · replies instantly, 24/7</small></div><div id="clog"></div><div id="qr"></div><div id="crow"><input id="cinp" placeholder="Type a message…" onkeydown="if(event.key==='Enter')sendMsg()"><button id="csend" onclick="sendMsg()">➤</button></div></div>
 <script>
 var CLINIC="ACLC";
 function toggleChat(){document.getElementById('cbox').classList.toggle('open');if(document.getElementById('clog').children.length===0)greet();}
