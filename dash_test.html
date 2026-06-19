@@ -2423,13 +2423,17 @@ window.SG = {
     ['🤖 System',['ops','map']],
     ['👤 Personal',['brand','life']]
   ];
-  var first=document.querySelector('.sb-item'); if(!first) return;
-  var holder=first.parentElement; if(!holder) return;
-  var byPane={}; holder.querySelectorAll('.sb-item').forEach(function(b){byPane[b.getAttribute('data-pane')]=b;});
+  var items=document.querySelectorAll('.sb-nav .sb-item'); if(!items.length) return;
+  var byPane={}; items.forEach(function(b){byPane[b.getAttribute('data-pane')]=b;});
+  var navs=document.querySelectorAll('.sb-nav'); var home=navs[0];
+  document.querySelectorAll('.sb-nav .sb-section').forEach(function(s){s.remove();});
+  var tools=document.querySelector('.sb-tools');
   groups.forEach(function(g){
-    var h=document.createElement('div'); h.className='sb-group'; h.textContent=g[0]; holder.appendChild(h);
-    g[1].forEach(function(p){ if(byPane[p]) holder.appendChild(byPane[p]); });
+    var hd=document.createElement('div'); hd.className='sb-section'; hd.textContent=g[0]; home.appendChild(hd);
+    g[1].forEach(function(p){ if(byPane[p]) home.appendChild(byPane[p]); });
   });
+  if(tools) home.appendChild(tools);
+  for(var i=1;i<navs.length;i++){ if(!navs[i].querySelector('.sb-item') && !navs[i].querySelector('.sb-tools')) navs[i].style.display='none'; }
 })();
 </script>
 <script>
